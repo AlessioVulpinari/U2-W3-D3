@@ -46,7 +46,12 @@ const fetchBooks = () => {
         img.classList.add("card-img-top")
 
         const cardBody = document.createElement("div")
-        cardBody.classList.add("card-body")
+        cardBody.classList.add(
+          "card-body",
+          "d-flex",
+          "flex-column",
+          "justify-content-between"
+        )
 
         const title = document.createElement("p")
         title.classList.add("card-text")
