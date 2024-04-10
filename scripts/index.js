@@ -66,9 +66,9 @@ const fetchBooks = () => {
 
         const btnBuy = document.createElement("button")
         btnBuy.classList.add("btn", "btn-success", "btn-sm")
-        btnBuy.dataset.title = book.title
-        btnBuy.dataset.price = book.price
-        btnBuy.addEventListener("click", handleBuyBtn)
+        btnBuy.addEventListener("click", () =>
+          handleBuyBtn(book.title, book.price, book.asin)
+        )
         btnBuy.innerText = "Compra Ora"
 
         const btnDiscard = document.createElement("button")
@@ -95,12 +95,8 @@ const handleDiscardBtn = function (event) {
   event.target.closest(".col").remove()
 }
 
-const removeItems = function (event) {
-  text = event.target.dataset.text
-
-  const includes = () => shop.includes(text)
-
-  const index = shop.findIndex(includes)
+const removeItems = function (event, asin) {
+  const index = shop.findIndex((obj) => obj.asin === asin)
 
   if (index != -1) {
     shop.splice(index, 1)
@@ -110,29 +106,17 @@ const removeItems = function (event) {
   event.target.closest(".itemContainer").remove()
 }
 
-const handleBuyBtn = function (event) {
-  title = event.target.dataset.title
-  price = event.target.dataset.price
-  titleAndPrice = title + " price: " + price
+const handleBuyBtn = function (title, price, asin) {
+  const product = { title, price, asin }
 
-  /*const includes = () => shop.includes(title)
-
-  const index = shop.findIndex(includes)
-
-  if (index != -1) {
-    price = parseInt(price) + parseInt(price)
-  } else {
-    
-  } */
-
-  shop.push(titleAndPrice)
+  shop.push(product)
 
   window.localStorage.setItem("shop-memory", JSON.stringify(shop))
 
-  addToCart(titleAndPrice)
+  addToCart(product)
 }
 
-const addToCart = function (string) {
+const addToCart = function (obj) {
   const cart = document.getElementById("cartContainer")
   const itemContainer = document.createElement("div")
   itemContainer.classList.add("itemContainer")
@@ -140,11 +124,10 @@ const addToCart = function (string) {
 
   const btnDiscard = document.createElement("button")
   btnDiscard.classList.add("btn", "btn-danger", "btn-sm")
-  btnDiscard.addEventListener("click", removeItems)
+  btnDiscard.addEventListener("click", (event) => removeItems(event, obj.asin))
   btnDiscard.innerText = "Scarta"
-  btnDiscard.dataset.text = string
 
-  item.innerText = string
+  item.innerText = obj.title + " " + obj.price
 
   itemContainer.appendChild(item)
   itemContainer.appendChild(btnDiscard)
