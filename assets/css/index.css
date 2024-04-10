@@ -1,0 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
+.card img {
+  object-fit: cover;
+}
