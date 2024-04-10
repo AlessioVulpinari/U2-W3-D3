@@ -2,6 +2,18 @@
   box-sizing: border-box;
 }
 
+@media screen and (min-width: 576px) {
+  .card {
+    height: 570px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .card {
+    height: 650px;
+  }
+}
+
 .card img {
   object-fit: cover;
 }
